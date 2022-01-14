@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchBonds } from '../../services/bondService';
 import { LOADING_STATUSES } from './constants';
+import map from 'lodash/map';
 
 export const getBonds = createAsyncThunk(
     'bond/fetchBonds',
@@ -33,7 +34,8 @@ const bondSlice = createSlice({
       state.responseMessage = '';
     }).addCase(getBonds.fulfilled, (state, action) => {
       state.status = LOADING_STATUSES.idle;
-      state.bonds = action.payload;
+      const bonds = action.payload?.payload?.instruments;
+      state.bonds = map(bonds, bond => ({id: bond?.figi, ...bond}));
       state.responseMessage = '';
     }).addCase(getBonds.rejected, (state, action) => {
       state.status = LOADING_STATUSES.error;
