@@ -15,36 +15,36 @@ import { setMessage } from '../../store/message/messageSlice';
 import isEqual from 'lodash/isEqual';
 
 const columns = [
-  { field: 'figi', headerName: 'figi', minWidth: 90 },
-  { field: 'ticker', headerName: 'ticker', minWidth: 90 },
-  { field: 'isin', headerName: 'isin', minWidth: 90 },
+  { field: 'figi', headerName: 'figi', minWidth: 150 },
+  { field: 'ticker', headerName: 'ticker', minWidth: 150 },
+  { field: 'isin', headerName: 'isin', minWidth: 150 },
   {
     field: 'minPriceIncrement',
     headerName: 'minPriceIncrement',
     type: 'number',
-    minWidth: 70,
+    minWidth: 220,
   },
   {
     field: 'faceValue',
     headerName: 'faceValue',
     type: 'number',
-    minWidth: 70,
+    minWidth: 150,
   },
   {
     field: 'lot',
     headerName: 'lot',
     type: 'number',
-    minWidth: 70,
+    minWidth: 150,
   },
   {
     field: 'currency',
     headerName: 'currency',
-    minWidth: 70,
+    minWidth: 150,
   },
   {
     field: 'name',
     headerName: 'name',
-    minWidth: 350,
+    minWidth: 400,
   },
 ];
 
@@ -69,9 +69,8 @@ function BondTable() {
         <DataGrid
             rows={bonds}
             columns={columns}
-            pageSize={25}
+            pageSize={10}
             rowsPerPageOptions={rowsPerPageOptions}
-            checkboxSelection
         />
       </div>
   );
