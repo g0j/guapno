@@ -5,8 +5,12 @@ import { LOADING_STATUSES } from './constants';
 export const getBonds = createAsyncThunk(
     'bond/fetchBonds',
     async (token) => {
-      const response = await fetchBonds(token);
-      return response?.data;
+      try {
+        const response = await fetchBonds(token);
+        return response?.data;
+      } catch (error) {
+        return error;
+      }
     },
 );
 
@@ -15,7 +19,8 @@ const bondSlice = createSlice({
   initialState: {
     currentBond: null,
     bonds: [],
-    status: 'idle',
+    status: LOADING_STATUSES.idle,
+    responseMessage: ''
   },
   reducers: {
     setBond(state, action) {
@@ -25,9 +30,14 @@ const bondSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getBonds.pending, (state) => {
       state.status = LOADING_STATUSES.loading;
+      state.responseMessage = '';
     }).addCase(getBonds.fulfilled, (state, action) => {
       state.status = LOADING_STATUSES.idle;
       state.bonds = action.payload;
+      state.responseMessage = '';
+    }).addCase(getBonds.rejected, (state, action) => {
+      state.status = LOADING_STATUSES.error;
+      state.responseMessage = action.payload;
     });
   },
 });

@@ -1,12 +1,13 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectBondsLoadingStatus } from '../../store/bond/bondSelectors';
+import { selectBondsLoadingResponseMessage, selectBondsLoadingStatus } from '../../store/bond/bondSelectors';
 import classes from './BondTable.module.css';
-import { useEffect } from 'react';
-import { getBonds } from '../../store/bond/bondSlice';
 import { Backdrop } from '@mui/material';
 import { LOADING_STATUSES } from '../../store/bond/constants';
-import { selectToken } from '../../store/auth/authSelectors';
+import BondActions from './BondActions';
+import { useEffect } from 'react';
+import isEmpty from 'lodash/isEmpty';
+import { setMessage } from '../../store/message/messageSlice';
 
 const columns = [
   { field: 'id', headerName: 'ID', minWidth: 70 },
@@ -45,18 +46,19 @@ const rows = [
 
 function BondTable() {
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
   const loadingStatus = useSelector(selectBondsLoadingStatus);
+  const loadingResponseMessage = useSelector(selectBondsLoadingResponseMessage);
 
   useEffect(() => {
-    if (token) {
-      dispatch(getBonds(token));
+    if (!isEmpty(loadingResponseMessage)) {
+      dispatch(setMessage(`Произошла ошибка: ${loadingResponseMessage}`));
     }
-  }, [token]);
+  }, [loadingResponseMessage]);
 
   return (
       <div className={classes.container}>
         <Backdrop open={loadingStatus === LOADING_STATUSES.loading} />
+        <BondActions />
         <DataGrid
             rows={rows}
             columns={columns}

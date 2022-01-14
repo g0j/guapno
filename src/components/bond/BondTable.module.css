@@ -3,4 +3,14 @@
   width: 80%;
   margin: auto;
   display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.controlArea {
+  display: flex;
+  gap: 1.6rem;
+}
+.controlArea div {
+  flex: 1 0;
 }

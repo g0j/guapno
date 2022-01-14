@@ -1,22 +1,13 @@
-import classes from '../styles/App.module.css';
+import classes from './App.module.css';
 import BondTable from './bond/BondTable';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { getToken } from '../store/auth/authSlice';
+import { Header, Message } from './layout';
 
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getToken());
-  }, []);
-
   return (
       <div className={classes.App}>
-        <header>
-          <p>Привыкай, что тебе завидуют</p>
-        </header>
+        <Header />
         <BondTable />
+        <Message />
       </div>
   );
 }
